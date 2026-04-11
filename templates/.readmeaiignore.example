@@ -1,0 +1,41 @@
+# .readmeaiignore
+# Files and directories to exclude from readme-ai analysis
+# Uses glob patterns (same syntax as .gitignore)
+
+# Dependencies
+node_modules/
+vendor/
+.venv/
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+
+# Test fixtures and snapshots
+**/__snapshots__/
+**/fixtures/
+
+# Generated files
+*.min.js
+*.bundle.js
+*.map
+
+# Large data files
+*.csv
+*.sql
+*.sqlite
+
+# Media files
+*.png
+*.jpg
+*.gif
+*.svg
+*.mp4
+
+# IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
