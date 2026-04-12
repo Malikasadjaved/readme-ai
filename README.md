@@ -50,6 +50,13 @@ npx @malikasadjaved/readme-ai github:expressjs/express
 npx @malikasadjaved/readme-ai --interactive
 ```
 
+## Demo
+
+<div align="center">
+  <img src="demo/demo.gif" alt="readme-ai demo" width="800">
+  <p><em>Generating a full README in seconds — with architecture diagrams, badges, and more.</em></p>
+</div>
+
 ## Comparison
 
 | Feature | readme-ai | eli64s/readme-ai | readmeX |
