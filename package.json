@@ -1,6 +1,6 @@
 {
   "name": "@malikasadjaved/readme-ai",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "The #1 AI-powered README generator — generate stunning docs from any codebase in seconds. Supports Claude, GPT-4o, Gemini, Ollama. 5 themes, Mermaid diagrams, badges, plugin system.",
   "keywords": [
     "readme",
@@ -62,10 +62,10 @@
     "contributing",
     "changelog"
   ],
-  "homepage": "https://github.com/malikasadjaved/readme-ai",
+  "homepage": "https://github.com/Malikasadjaved/readme-ai",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/malikasadjaved/readme-ai.git"
+    "url": "git+https://github.com/Malikasadjaved/readme-ai.git"
   },
   "license": "MIT",
   "type": "module",

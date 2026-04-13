@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-04-14
+
+### Fixed
+
+- Fixed repository URL casing in package.json to match GitHub canonical URL (npm provenance verification)
+
 ## [1.2.0] - 2026-04-14
 
 ### Added
@@ -56,7 +62,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `.readmeaiignore` support for excluding files from analysis
 - Published to npm as `@malikasadjaved/readme-ai`
 
-[Unreleased]: https://github.com/malikasadjaved/readme-ai/compare/v1.2.0...HEAD
-[1.2.0]: https://github.com/malikasadjaved/readme-ai/compare/v1.0.1...v1.2.0
-[1.0.1]: https://github.com/malikasadjaved/readme-ai/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/malikasadjaved/readme-ai/releases/tag/v1.0.0
+[Unreleased]: https://github.com/Malikasadjaved/readme-ai/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/Malikasadjaved/readme-ai/compare/v1.2.0...v1.2.1
+[1.2.0]: https://github.com/Malikasadjaved/readme-ai/compare/v1.0.1...v1.2.0
+[1.0.1]: https://github.com/Malikasadjaved/readme-ai/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/Malikasadjaved/readme-ai/releases/tag/v1.0.0
