@@ -263,7 +263,7 @@ jobs:
           node-version: '20'
 
       - name: Generate README
-        run: npx readme-ai@latest --overwrite
+        run: npx @malikasadjaved/readme-ai@latest --overwrite
         env:
           ANTHROPIC_API_KEY: \${{ secrets.ANTHROPIC_API_KEY }}
 

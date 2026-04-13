@@ -1,6 +1,6 @@
 {
   "name": "@malikasadjaved/readme-ai",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "The #1 AI-powered README generator — generate stunning docs from any codebase in seconds. Supports Claude, GPT-4o, Gemini, Ollama. 5 themes, Mermaid diagrams, badges, plugin system.",
   "keywords": [
     "readme",
