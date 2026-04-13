@@ -65,7 +65,7 @@ describe('generateUsageSection', () => {
       deps: makeDeps({ runCommand: 'npm start' }),
       provider: makeMockProvider(),
     });
-    expect(result.examples.some(e => e.title === 'Running the project')).toBe(true);
+    expect(result.examples.some((e) => e.title === 'Running the project')).toBe(true);
   });
 
   it('includes test command example', async () => {
@@ -75,22 +75,20 @@ describe('generateUsageSection', () => {
       deps: makeDeps({ testCommand: 'npm test' }),
       provider: makeMockProvider(),
     });
-    expect(result.examples.some(e => e.title === 'Running tests')).toBe(true);
+    expect(result.examples.some((e) => e.title === 'Running tests')).toBe(true);
   });
 
   it('includes API endpoint examples with curl', async () => {
     const result = await generateUsageSection({
       codeAnalysis: makeCode({
-        apiEndpoints: [
-          { method: 'GET', path: '/users', handler: '', file: 'routes.ts' },
-        ],
+        apiEndpoints: [{ method: 'GET', path: '/users', handler: '', file: 'routes.ts' }],
       }),
       scan: makeScan(),
       deps: makeDeps(),
       provider: makeMockProvider(),
     });
-    expect(result.examples.some(e => e.title === 'API Examples')).toBe(true);
-    expect(result.examples.find(e => e.title === 'API Examples')!.code).toContain('curl');
+    expect(result.examples.some((e) => e.title === 'API Examples')).toBe(true);
+    expect(result.examples.find((e) => e.title === 'API Examples')!.code).toContain('curl');
   });
 
   it('includes CLI command examples', async () => {
@@ -102,7 +100,7 @@ describe('generateUsageSection', () => {
       deps: makeDeps(),
       provider: makeMockProvider(),
     });
-    expect(result.examples.some(e => e.title === 'CLI Commands')).toBe(true);
+    expect(result.examples.some((e) => e.title === 'CLI Commands')).toBe(true);
   });
 
   it('falls back to Getting Started when no examples', async () => {
@@ -112,7 +110,7 @@ describe('generateUsageSection', () => {
       deps: makeDeps({ runCommand: '', testCommand: undefined }),
       provider: makeMockProvider(),
     });
-    expect(result.examples.some(e => e.title === 'Getting Started')).toBe(true);
+    expect(result.examples.some((e) => e.title === 'Getting Started')).toBe(true);
   });
 
   it('uses AI when few examples and exports exist', async () => {
@@ -132,7 +130,7 @@ describe('generateUsageSection', () => {
       provider,
     });
     expect(provider.generateJSON).toHaveBeenCalled();
-    expect(result.examples.some(e => e.title === 'AI Example')).toBe(true);
+    expect(result.examples.some((e) => e.title === 'AI Example')).toBe(true);
   });
 });
 
@@ -159,9 +157,7 @@ describe('generateAPIDocs', () => {
   it('handles AI failure gracefully', async () => {
     const result = await generateAPIDocs({
       codeAnalysis: makeCode({
-        exports: [
-          { name: 'foo', type: 'function', signature: 'function foo()', file: 'a.ts' },
-        ],
+        exports: [{ name: 'foo', type: 'function', signature: 'function foo()', file: 'a.ts' }],
       }),
       provider: makeMockProvider({
         generateJSON: vi.fn().mockRejectedValue(new Error('API error')),

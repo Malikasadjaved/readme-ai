@@ -19,8 +19,8 @@ ${data.description}`);
 
   // Features / Objectives
   if (data.keyFeatures.length > 0) {
-    const cleanFeatures = data.keyFeatures.map(f =>
-      f.replace(/^[\p{Emoji_Presentation}\p{Extended_Pictographic}\s]+/u, '')
+    const cleanFeatures = data.keyFeatures.map((f) =>
+      f.replace(/^[\p{Emoji_Presentation}\p{Extended_Pictographic}\s]+/u, ''),
     );
     sections.push(`## 2. Objectives
 
@@ -60,7 +60,7 @@ ${data.directoryTree}
   if (data.installSection.prerequisites.length > 0) {
     installLines.push('The following software is required:');
     installLines.push('');
-    installLines.push(data.installSection.prerequisites.map(p => `- ${p}`).join('\n'));
+    installLines.push(data.installSection.prerequisites.map((p) => `- ${p}`).join('\n'));
   } else {
     installLines.push('No specific prerequisites are required.');
   }

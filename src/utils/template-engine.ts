@@ -4,7 +4,10 @@ export function fillTemplate(template: string, data: Record<string, string>): st
 
 export function indent(text: string, spaces: number): string {
   const pad = ' '.repeat(spaces);
-  return text.split('\n').map(line => pad + line).join('\n');
+  return text
+    .split('\n')
+    .map((line) => pad + line)
+    .join('\n');
 }
 
 export function wrapCodeBlock(code: string, language: string = ''): string {
@@ -16,7 +19,7 @@ export function heading(text: string, level: number): string {
 }
 
 export function bulletList(items: string[]): string {
-  return items.map(item => `- ${item}`).join('\n');
+  return items.map((item) => `- ${item}`).join('\n');
 }
 
 export function numberedList(items: string[]): string {
@@ -26,7 +29,7 @@ export function numberedList(items: string[]): string {
 export function table(headers: string[], rows: string[][]): string {
   const headerRow = `| ${headers.join(' | ')} |`;
   const separator = `| ${headers.map(() => '---').join(' | ')} |`;
-  const dataRows = rows.map(row => `| ${row.join(' | ')} |`).join('\n');
+  const dataRows = rows.map((row) => `| ${row.join(' | ')} |`).join('\n');
   return `${headerRow}\n${separator}\n${dataRows}`;
 }
 

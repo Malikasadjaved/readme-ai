@@ -45,11 +45,34 @@ export interface RepoContent {
 
 const MAX_REMOTE_FILES = 100;
 const SOURCE_EXTENSIONS = new Set([
-  'ts', 'tsx', 'js', 'jsx', 'mjs', 'cjs',
-  'py', 'rs', 'go', 'java', 'kt', 'swift',
-  'rb', 'php', 'cs', 'cpp', 'c', 'h',
-  'vue', 'svelte', 'dart', 'ex', 'exs',
-  'scala', 'lua', 'r', 'zig', 'sh',
+  'ts',
+  'tsx',
+  'js',
+  'jsx',
+  'mjs',
+  'cjs',
+  'py',
+  'rs',
+  'go',
+  'java',
+  'kt',
+  'swift',
+  'rb',
+  'php',
+  'cs',
+  'cpp',
+  'c',
+  'h',
+  'vue',
+  'svelte',
+  'dart',
+  'ex',
+  'exs',
+  'scala',
+  'lua',
+  'r',
+  'zig',
+  'sh',
 ]);
 
 export async function fetchRepo(input: string): Promise<RepoContent> {
@@ -69,7 +92,7 @@ async function fetchLocalRepo(repoPath: string): Promise<RepoContent> {
   const ignores = await loadIgnorePatterns(repoPath);
   const relativePaths = await globFiles(repoPath, ignores);
 
-  const files: FileEntry[] = relativePaths.map(relPath => {
+  const files: FileEntry[] = relativePaths.map((relPath) => {
     const absPath = path.join(repoPath, relPath);
     return {
       path: relPath,
@@ -88,7 +111,9 @@ async function fetchLocalRepo(repoPath: string): Promise<RepoContent> {
   if (await fileExists(pkgPath)) {
     try {
       result.packageJson = JSON.parse(await readFileContent(pkgPath));
-    } catch { /* ignore parse errors */ }
+    } catch {
+      /* ignore parse errors */
+    }
   }
 
   const reqPath = path.join(repoPath, 'requirements.txt');
@@ -109,11 +134,7 @@ async function fetchLocalRepo(repoPath: string): Promise<RepoContent> {
   return result;
 }
 
-async function fetchRemoteRepo(
-  owner: string,
-  repo: string,
-  branch?: string
-): Promise<RepoContent> {
+async function fetchRemoteRepo(owner: string, repo: string, branch?: string): Promise<RepoContent> {
   const githubMeta = await fetchGitHubMeta(owner, repo);
   const treeEntries = await fetchGitHubTree(owner, repo, branch);
 
@@ -122,17 +143,19 @@ async function fetchRemoteRepo(
 
   // Filter to source files and important configs, limit count
   const prioritized = treeEntries
-    .filter(entry => {
+    .filter((entry) => {
       const ext = getFileExtension(entry.path);
       const name = entry.path.split('/').pop() || '';
-      return SOURCE_EXTENSIONS.has(ext) ||
+      return (
+        SOURCE_EXTENSIONS.has(ext) ||
         name === 'package.json' ||
         name === 'requirements.txt' ||
         name === 'Cargo.toml' ||
         name === 'go.mod' ||
         name === 'pyproject.toml' ||
         name === 'Dockerfile' ||
-        name === 'Makefile';
+        name === 'Makefile'
+      );
     })
     .sort((a, b) => {
       // Prioritize entry points and configs
@@ -149,7 +172,7 @@ async function fetchRemoteRepo(
   for (let i = 0; i < prioritized.length; i += batchSize) {
     const batch = prioritized.slice(i, i + batchSize);
     await Promise.all(
-      batch.map(async entry => {
+      batch.map(async (entry) => {
         try {
           const content = await fetchGitHubFileContent(owner, repo, entry.path, branch);
           const filePath = path.join(tmpDir, entry.path);
@@ -158,11 +181,11 @@ async function fetchRemoteRepo(
         } catch {
           // Skip files that fail to download
         }
-      })
+      }),
     );
   }
 
-  const files: FileEntry[] = prioritized.map(entry => ({
+  const files: FileEntry[] = prioritized.map((entry) => ({
     path: entry.path,
     absolutePath: path.join(tmpDir, entry.path),
     language: detectLanguage(entry.path),
@@ -180,12 +203,14 @@ async function fetchRemoteRepo(
   };
 
   // Parse package.json if downloaded
-  const pkgFile = files.find(f => f.path === 'package.json');
+  const pkgFile = files.find((f) => f.path === 'package.json');
   if (pkgFile) {
     try {
       const content = await readFileContent(pkgFile.absolutePath);
       result.packageJson = JSON.parse(content);
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
   }
 
   return result;

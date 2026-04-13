@@ -7,8 +7,8 @@ export function createOpenAIProvider(model?: string): AIProvider {
   if (!apiKey) {
     throw new Error(
       'OPENAI_API_KEY not set.\n' +
-      'Export your key: export OPENAI_API_KEY=sk-...\n' +
-      'Or use Ollama for free: --provider ollama'
+        'Export your key: export OPENAI_API_KEY=sk-...\n' +
+        'Or use Ollama for free: --provider ollama',
     );
   }
 
@@ -35,7 +35,8 @@ export function createOpenAIProvider(model?: string): AIProvider {
         messages: [
           {
             role: 'user',
-            content: prompt + '\n\nRespond with valid JSON only. No markdown fences, no explanation.',
+            content:
+              prompt + '\n\nRespond with valid JSON only. No markdown fences, no explanation.',
           },
         ],
         max_tokens: 4096,

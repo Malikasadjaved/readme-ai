@@ -12,9 +12,7 @@ export function joinSections(sections: string[]): string {
 }
 
 export function sanitizeMarkdown(text: string): string {
-  return text
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+  return text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 export function escapeForTable(text: string): string {

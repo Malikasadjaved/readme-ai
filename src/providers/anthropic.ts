@@ -7,8 +7,8 @@ export function createAnthropicProvider(model?: string): AIProvider {
   if (!apiKey) {
     throw new Error(
       'ANTHROPIC_API_KEY not set.\n' +
-      'Export your key: export ANTHROPIC_API_KEY=sk-ant-...\n' +
-      'Or use Ollama for free: --provider ollama'
+        'Export your key: export ANTHROPIC_API_KEY=sk-ant-...\n' +
+        'Or use Ollama for free: --provider ollama',
     );
   }
 
@@ -40,14 +40,18 @@ export function createAnthropicProvider(model?: string): AIProvider {
         messages: [
           {
             role: 'user',
-            content: prompt + '\n\nRespond with valid JSON only. No markdown fences, no explanation.',
+            content:
+              prompt + '\n\nRespond with valid JSON only. No markdown fences, no explanation.',
           },
         ],
       });
 
       const block = response.content[0];
       if (block.type === 'text') {
-        const text = block.text.trim().replace(/^```json\n?/, '').replace(/\n?```$/, '');
+        const text = block.text
+          .trim()
+          .replace(/^```json\n?/, '')
+          .replace(/\n?```$/, '');
         return JSON.parse(text) as T;
       }
       throw new Error('Unexpected response format from Anthropic');

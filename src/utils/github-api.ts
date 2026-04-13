@@ -26,7 +26,9 @@ function createOctokit(): Octokit {
   return new Octokit(token ? { auth: token } : {});
 }
 
-export function parseGitHubURL(input: string): { owner: string; repo: string; branch?: string } | null {
+export function parseGitHubURL(
+  input: string,
+): { owner: string; repo: string; branch?: string } | null {
   // github:user/repo
   const shortMatch = input.match(/^github:([^/]+)\/([^/]+)$/);
   if (shortMatch) {
@@ -63,7 +65,7 @@ export async function fetchGitHubMeta(owner: string, repo: string): Promise<GitH
 export async function fetchGitHubTree(
   owner: string,
   repo: string,
-  branch?: string
+  branch?: string,
 ): Promise<GitHubFileEntry[]> {
   const octokit = createOctokit();
   const ref = branch || (await fetchGitHubMeta(owner, repo)).defaultBranch;
@@ -76,8 +78,8 @@ export async function fetchGitHubTree(
   });
 
   return data.tree
-    .filter(item => item.type === 'blob' && item.path && item.size !== undefined)
-    .map(item => ({
+    .filter((item) => item.type === 'blob' && item.path && item.size !== undefined)
+    .map((item) => ({
       path: item.path!,
       size: item.size || 0,
       type: 'file' as const,
@@ -89,7 +91,7 @@ export async function fetchGitHubFileContent(
   owner: string,
   repo: string,
   filePath: string,
-  branch?: string
+  branch?: string,
 ): Promise<string> {
   const octokit = createOctokit();
   const ref = branch || (await fetchGitHubMeta(owner, repo)).defaultBranch;

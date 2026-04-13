@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { scanFiles, type ScanResult } from '../../src/analyzers/file-scanner.js';
+import { scanFiles } from '../../src/analyzers/file-scanner.js';
 import type { RepoContent, FileEntry } from '../../src/analyzers/repo-fetcher.js';
 
 function makeFile(filePath: string, overrides: Partial<FileEntry> = {}): FileEntry {
@@ -34,28 +34,19 @@ vi.mock('../../src/utils/file-utils.js', () => ({
 
 describe('scanFiles', () => {
   it('returns correct totalFiles count', async () => {
-    const files = [
-      makeFile('src/index.ts'),
-      makeFile('src/utils.ts'),
-      makeFile('README.md'),
-    ];
+    const files = [makeFile('src/index.ts'), makeFile('src/utils.ts'), makeFile('README.md')];
     const result = await scanFiles(makeRepo(files));
     expect(result.totalFiles).toBe(3);
   });
 
   it('detects Docker presence', async () => {
-    const files = [
-      makeFile('src/index.ts'),
-      makeFile('Dockerfile'),
-    ];
+    const files = [makeFile('src/index.ts'), makeFile('Dockerfile')];
     const result = await scanFiles(makeRepo(files));
     expect(result.hasDocker).toBe(true);
   });
 
   it('detects docker-compose', async () => {
-    const files = [
-      makeFile('docker-compose.yml'),
-    ];
+    const files = [makeFile('docker-compose.yml')];
     const result = await scanFiles(makeRepo(files));
     expect(result.hasDocker).toBe(true);
   });
@@ -67,10 +58,7 @@ describe('scanFiles', () => {
   });
 
   it('detects CI/CD from GitHub workflows', async () => {
-    const files = [
-      makeFile('.github/workflows/ci.yml'),
-      makeFile('src/index.ts'),
-    ];
+    const files = [makeFile('.github/workflows/ci.yml'), makeFile('src/index.ts')];
     const result = await scanFiles(makeRepo(files));
     expect(result.hasCICD).toBe(true);
   });
@@ -88,37 +76,26 @@ describe('scanFiles', () => {
   });
 
   it('detects test files', async () => {
-    const files = [
-      makeFile('src/index.ts'),
-      makeFile('tests/index.test.ts', { isTest: true }),
-    ];
+    const files = [makeFile('src/index.ts'), makeFile('tests/index.test.ts', { isTest: true })];
     const result = await scanFiles(makeRepo(files));
     expect(result.hasTests).toBe(true);
   });
 
   it('collects entry points', async () => {
-    const files = [
-      makeFile('src/index.ts', { isEntryPoint: true }),
-      makeFile('src/utils.ts'),
-    ];
+    const files = [makeFile('src/index.ts', { isEntryPoint: true }), makeFile('src/utils.ts')];
     const result = await scanFiles(makeRepo(files));
     expect(result.entryPoints).toContain('src/index.ts');
     expect(result.entryPoints).not.toContain('src/utils.ts');
   });
 
   it('collects config files', async () => {
-    const files = [
-      makeFile('tsconfig.json', { isConfig: true }),
-      makeFile('src/index.ts'),
-    ];
+    const files = [makeFile('tsconfig.json', { isConfig: true }), makeFile('src/index.ts')];
     const result = await scanFiles(makeRepo(files));
     expect(result.configFiles).toContain('tsconfig.json');
   });
 
   it('limits keyFiles to 30', async () => {
-    const files = Array.from({ length: 50 }, (_, i) =>
-      makeFile(`src/file${i}.ts`)
-    );
+    const files = Array.from({ length: 50 }, (_, i) => makeFile(`src/file${i}.ts`));
     const result = await scanFiles(makeRepo(files));
     expect(result.keyFiles.length).toBeLessThanOrEqual(30);
   });
@@ -130,7 +107,7 @@ describe('scanFiles', () => {
       makeFile('tsconfig.json', { isConfig: true }),
     ];
     const result = await scanFiles(makeRepo(files));
-    expect(result.keyFiles.map(f => f.path)).toEqual(['src/index.ts']);
+    expect(result.keyFiles.map((f) => f.path)).toEqual(['src/index.ts']);
   });
 
   it('detects frameworks from package.json dependencies', async () => {

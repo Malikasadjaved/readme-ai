@@ -26,9 +26,7 @@ function makeCode(overrides: Partial<CodeAnalysis> = {}): CodeAnalysis {
   return {
     exports: [],
     mainFunctions: [],
-    apiEndpoints: [
-      { method: 'GET', path: '/api/users', handler: 'getUsers', file: 'routes.ts' },
-    ],
+    apiEndpoints: [{ method: 'GET', path: '/api/users', handler: 'getUsers', file: 'routes.ts' }],
     cliCommands: [],
     envVariables: [],
     externalDependencies: [],
@@ -116,7 +114,7 @@ describe('generateOverview', () => {
       provider,
     });
 
-    expect(result.keyFeatures.some(f => f.includes('React'))).toBe(true);
+    expect(result.keyFeatures.some((f) => f.includes('React'))).toBe(true);
   });
 
   it('fallback mentions API endpoints when present', async () => {

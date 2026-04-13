@@ -32,12 +32,12 @@ export function renderHacker(data: ThemeData): string {
 
   // Features
   if (data.keyFeatures.length > 0) {
-    const cleanFeatures = data.keyFeatures.map(f =>
-      f.replace(/^[\p{Emoji_Presentation}\p{Extended_Pictographic}\s]+/u, '')
+    const cleanFeatures = data.keyFeatures.map((f) =>
+      f.replace(/^[\p{Emoji_Presentation}\p{Extended_Pictographic}\s]+/u, ''),
     );
     sections.push(`## // Features
 
-${cleanFeatures.map(f => `- [x] ${f}`).join('\n')}`);
+${cleanFeatures.map((f) => `- [x] ${f}`).join('\n')}`);
   }
 
   // Architecture
@@ -65,14 +65,14 @@ ${data.directoryTree}
 
   if (data.installSection.prerequisites.length > 0) {
     installLines.push('**Requirements:**');
-    installLines.push(data.installSection.prerequisites.map(p => `- \`${p}\``).join('\n'));
+    installLines.push(data.installSection.prerequisites.map((p) => `- \`${p}\``).join('\n'));
     installLines.push('');
   }
 
   installLines.push('**Install:**');
   installLines.push('');
   installLines.push('```bash');
-  data.installSection.installSteps.forEach(step => {
+  data.installSection.installSteps.forEach((step) => {
     installLines.push(`# ${step.title}`);
     installLines.push(step.command);
   });

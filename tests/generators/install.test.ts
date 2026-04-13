@@ -43,7 +43,7 @@ describe('generateInstallSection', () => {
     const result = generateInstallSection(deps, makeScan());
 
     expect(result.prerequisites).toContain('Node.js >= 18');
-    expect(result.installSteps.some(s => s.command === 'npm install')).toBe(true);
+    expect(result.installSteps.some((s) => s.command === 'npm install')).toBe(true);
     expect(result.verifyCommand).toBe('npm start');
   });
 
@@ -57,7 +57,7 @@ describe('generateInstallSection', () => {
     const result = generateInstallSection(deps, makeScan());
 
     expect(result.prerequisites).toContain('yarn');
-    expect(result.installSteps.some(s => s.command === 'yarn run build')).toBe(true);
+    expect(result.installSteps.some((s) => s.command === 'yarn run build')).toBe(true);
   });
 
   it('generates pip install steps with venv', () => {
@@ -68,8 +68,8 @@ describe('generateInstallSection', () => {
     });
     const result = generateInstallSection(deps, makeScan());
 
-    expect(result.prerequisites.some(p => p.includes('Python'))).toBe(true);
-    expect(result.installSteps.some(s => s.command.includes('venv'))).toBe(true);
+    expect(result.prerequisites.some((p) => p.includes('Python'))).toBe(true);
+    expect(result.installSteps.some((s) => s.command.includes('venv'))).toBe(true);
   });
 
   it('generates cargo install steps', () => {
@@ -80,7 +80,7 @@ describe('generateInstallSection', () => {
     });
     const result = generateInstallSection(deps, makeScan());
 
-    expect(result.prerequisites.some(p => p.includes('Rust'))).toBe(true);
+    expect(result.prerequisites.some((p) => p.includes('Rust'))).toBe(true);
   });
 
   it('generates go install steps', () => {
@@ -92,8 +92,8 @@ describe('generateInstallSection', () => {
     });
     const result = generateInstallSection(deps, makeScan());
 
-    expect(result.prerequisites.some(p => p.includes('Go'))).toBe(true);
-    expect(result.installSteps.some(s => s.command.includes('go build'))).toBe(true);
+    expect(result.prerequisites.some((p) => p.includes('Go'))).toBe(true);
+    expect(result.installSteps.some((s) => s.command.includes('go build'))).toBe(true);
   });
 
   it('adds Docker step when hasDocker is true', () => {
@@ -101,7 +101,7 @@ describe('generateInstallSection', () => {
     const scan = makeScan({ hasDocker: true });
     const result = generateInstallSection(deps, scan);
 
-    expect(result.installSteps.some(s => s.command.includes('docker compose'))).toBe(true);
+    expect(result.installSteps.some((s) => s.command.includes('docker compose'))).toBe(true);
   });
 
   it('adds env setup steps when requiresEnvFile is true', () => {
@@ -109,7 +109,7 @@ describe('generateInstallSection', () => {
     const result = generateInstallSection(deps, makeScan());
 
     expect(result.envSetupSteps).toBeDefined();
-    expect(result.envSetupSteps!.some(s => s.command.includes('.env'))).toBe(true);
+    expect(result.envSetupSteps!.some((s) => s.command.includes('.env'))).toBe(true);
   });
 
   it('returns no env steps when not needed', () => {

@@ -41,9 +41,7 @@ describe('indent', () => {
 
 describe('wrapCodeBlock', () => {
   it('wraps code in triple backticks', () => {
-    expect(wrapCodeBlock('const x = 1', 'typescript')).toBe(
-      '```typescript\nconst x = 1\n```'
-    );
+    expect(wrapCodeBlock('const x = 1', 'typescript')).toBe('```typescript\nconst x = 1\n```');
   });
 
   it('works without language', () => {
@@ -75,7 +73,13 @@ describe('numberedList', () => {
 
 describe('table', () => {
   it('produces pipe-delimited markdown table', () => {
-    const result = table(['Name', 'Age'], [['Alice', '30'], ['Bob', '25']]);
+    const result = table(
+      ['Name', 'Age'],
+      [
+        ['Alice', '30'],
+        ['Bob', '25'],
+      ],
+    );
     expect(result).toContain('| Name | Age |');
     expect(result).toContain('| --- | --- |');
     expect(result).toContain('| Alice | 30 |');

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { buildDiagram, type DiagramResult } from '../../src/analyzers/diagram-builder.js';
+import { buildDiagram } from '../../src/analyzers/diagram-builder.js';
 import type { ScanResult } from '../../src/analyzers/file-scanner.js';
 import type { CodeAnalysis } from '../../src/analyzers/code-analyzer.js';
 import type { DependencyAnalysis } from '../../src/analyzers/dependency-analyzer.js';
@@ -17,7 +17,17 @@ function makeScan(overrides: Partial<ScanResult> = {}): ScanResult {
     entryPoints: ['src/index.ts'],
     configFiles: [],
     directoryTree: '├── src/\n│   └── index.ts',
-    keyFiles: [{ path: 'src/index.ts', absolutePath: '/repo/src/index.ts', language: 'TypeScript', size: 100, isEntryPoint: true, isConfig: false, isTest: false }],
+    keyFiles: [
+      {
+        path: 'src/index.ts',
+        absolutePath: '/repo/src/index.ts',
+        language: 'TypeScript',
+        size: 100,
+        isEntryPoint: true,
+        isConfig: false,
+        isTest: false,
+      },
+    ],
     ...overrides,
   };
 }
@@ -59,9 +69,7 @@ function makeMockProvider(): AIProvider {
 describe('buildDiagram', () => {
   it('builds API diagram when endpoints exist', async () => {
     const code = makeCode({
-      apiEndpoints: [
-        { method: 'GET', path: '/api/users', handler: 'getUsers', file: 'routes.ts' },
-      ],
+      apiEndpoints: [{ method: 'GET', path: '/api/users', handler: 'getUsers', file: 'routes.ts' }],
     });
     const result = await buildDiagram(makeScan(), code, makeDeps(), makeMockProvider());
     expect(result.mermaidCode).toContain('graph TD');
@@ -71,9 +79,7 @@ describe('buildDiagram', () => {
 
   it('includes auth middleware when JWT env vars detected', async () => {
     const code = makeCode({
-      apiEndpoints: [
-        { method: 'GET', path: '/api/data', handler: 'getData', file: 'routes.ts' },
-      ],
+      apiEndpoints: [{ method: 'GET', path: '/api/data', handler: 'getData', file: 'routes.ts' }],
       envVariables: ['JWT_SECRET'],
     });
     const result = await buildDiagram(makeScan(), code, makeDeps(), makeMockProvider());
@@ -82,9 +88,7 @@ describe('buildDiagram', () => {
 
   it('includes database node when deps require DB', async () => {
     const code = makeCode({
-      apiEndpoints: [
-        { method: 'GET', path: '/api/data', handler: 'getData', file: 'routes.ts' },
-      ],
+      apiEndpoints: [{ method: 'GET', path: '/api/data', handler: 'getData', file: 'routes.ts' }],
     });
     const deps = makeDeps({
       requiresDatabase: true,

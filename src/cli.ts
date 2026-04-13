@@ -3,7 +3,7 @@ import { input, select, checkbox } from '@inquirer/prompts';
 import { runGenerate } from './commands/generate.js';
 
 export async function runCLI() {
-  console.log(chalk.cyan.bold('\n✨ readme-ai — Let\'s generate your README\n'));
+  console.log(chalk.cyan.bold("\n✨ readme-ai — Let's generate your README\n"));
 
   const repoPath = await input({
     message: 'Path to your project (or GitHub URL):',

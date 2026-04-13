@@ -28,7 +28,12 @@ function makeThemeData(overrides: Partial<ThemeData> = {}): ThemeData {
     },
     apiDocs: {
       entries: [
-        { name: 'doStuff', signature: 'function doStuff()', description: 'Does stuff', file: 'src/index.ts' },
+        {
+          name: 'doStuff',
+          signature: 'function doStuff()',
+          description: 'Does stuff',
+          file: 'src/index.ts',
+        },
       ],
     },
     contributingSection: 'Contributions welcome!',
@@ -79,13 +84,15 @@ describe('renderDefault', () => {
   });
 
   it('includes env setup when present', () => {
-    const output = renderDefault(makeThemeData({
-      installSection: {
-        prerequisites: [],
-        installSteps: [{ title: 'Install', command: 'npm install' }],
-        envSetupSteps: [{ title: 'Copy env', command: 'cp .env.example .env' }],
-      },
-    }));
+    const output = renderDefault(
+      makeThemeData({
+        installSection: {
+          prerequisites: [],
+          installSteps: [{ title: 'Install', command: 'npm install' }],
+          envSetupSteps: [{ title: 'Copy env', command: 'cp .env.example .env' }],
+        },
+      }),
+    );
     expect(output).toContain('Environment Setup');
     expect(output).toContain('.env');
   });

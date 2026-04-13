@@ -13,7 +13,7 @@ export async function buildDiagram(
   scan: ScanResult,
   codeAnalysis: CodeAnalysis,
   deps: DependencyAnalysis,
-  provider: AIProvider
+  provider: AIProvider,
 ): Promise<DiagramResult> {
   // Try to build a diagram from code structure first
   const structureDiagram = buildFromStructure(scan, codeAnalysis, deps);
@@ -26,11 +26,10 @@ export async function buildDiagram(
 function buildFromStructure(
   scan: ScanResult,
   codeAnalysis: CodeAnalysis,
-  deps: DependencyAnalysis
+  deps: DependencyAnalysis,
 ): DiagramResult | null {
   const hasAPI = codeAnalysis.apiEndpoints.length > 0;
   const hasCLI = codeAnalysis.cliCommands.length > 0;
-  const hasDB = deps.requiresDatabase;
   const frameworks = scan.frameworks;
 
   // REST API architecture
@@ -44,7 +43,9 @@ function buildFromStructure(
   }
 
   // React/Vue/Svelte frontend
-  if (frameworks.some(f => ['React', 'Vue', 'Svelte', 'Angular', 'Next.js', 'Nuxt'].includes(f))) {
+  if (
+    frameworks.some((f) => ['React', 'Vue', 'Svelte', 'Angular', 'Next.js', 'Nuxt'].includes(f))
+  ) {
     return buildFrontendDiagram(scan, deps, frameworks);
   }
 
@@ -55,7 +56,7 @@ function buildFromStructure(
 function buildAPIDiagram(
   code: CodeAnalysis,
   deps: DependencyAnalysis,
-  frameworks: string[]
+  _frameworks: string[],
 ): DiagramResult {
   const nodes: string[] = ['  A[Client] -->|HTTP Request| B[API Server]'];
 
@@ -63,7 +64,9 @@ function buildAPIDiagram(
   nodes.push('  B --> C[Route Handlers]');
 
   // Detect auth
-  if (code.envVariables.some(v => v.includes('JWT') || v.includes('AUTH') || v.includes('SECRET'))) {
+  if (
+    code.envVariables.some((v) => v.includes('JWT') || v.includes('AUTH') || v.includes('SECRET'))
+  ) {
     nodes.push('  B --> D[Auth Middleware]');
     nodes.push('  D --> C');
   }
@@ -75,15 +78,15 @@ function buildAPIDiagram(
   if (deps.requiresDatabase) {
     const dbDeps = deps.mainDependencies;
     let dbName = 'Database';
-    if (dbDeps.some(d => d.includes('pg') || d.includes('postgres'))) dbName = 'PostgreSQL';
-    else if (dbDeps.some(d => d.includes('mongo'))) dbName = 'MongoDB';
-    else if (dbDeps.some(d => d.includes('mysql'))) dbName = 'MySQL';
-    else if (dbDeps.some(d => d.includes('redis'))) dbName = 'Redis';
+    if (dbDeps.some((d) => d.includes('pg') || d.includes('postgres'))) dbName = 'PostgreSQL';
+    else if (dbDeps.some((d) => d.includes('mongo'))) dbName = 'MongoDB';
+    else if (dbDeps.some((d) => d.includes('mysql'))) dbName = 'MySQL';
+    else if (dbDeps.some((d) => d.includes('redis'))) dbName = 'Redis';
     nodes.push(`  E --> F[(${dbName})]`);
   }
 
   // Cache
-  if (deps.mainDependencies.some(d => d.includes('redis') || d.includes('ioredis'))) {
+  if (deps.mainDependencies.some((d) => d.includes('redis') || d.includes('ioredis'))) {
     nodes.push('  E --> G[(Redis Cache)]');
   }
 
@@ -91,11 +94,12 @@ function buildAPIDiagram(
   return {
     type: 'graph',
     mermaidCode,
-    description: 'The API follows a layered architecture with route handlers delegating to a service layer for business logic.',
+    description:
+      'The API follows a layered architecture with route handlers delegating to a service layer for business logic.',
   };
 }
 
-function buildCLIDiagram(code: CodeAnalysis, deps: DependencyAnalysis): DiagramResult {
+function buildCLIDiagram(code: CodeAnalysis, _deps: DependencyAnalysis): DiagramResult {
   const commands = code.cliCommands.slice(0, 5);
   const nodes: string[] = ['  A[CLI Input] --> B[Command Parser]'];
 
@@ -113,17 +117,20 @@ function buildCLIDiagram(code: CodeAnalysis, deps: DependencyAnalysis): DiagramR
   return {
     type: 'flowchart',
     mermaidCode,
-    description: 'The CLI processes user commands through a command parser that delegates to specific handlers.',
+    description:
+      'The CLI processes user commands through a command parser that delegates to specific handlers.',
   };
 }
 
 function buildFrontendDiagram(
   scan: ScanResult,
   deps: DependencyAnalysis,
-  frameworks: string[]
+  frameworks: string[],
 ): DiagramResult {
   const nodes: string[] = [];
-  const framework = frameworks.find(f => ['React', 'Vue', 'Svelte', 'Angular', 'Next.js', 'Nuxt'].includes(f)) || 'Frontend';
+  const framework =
+    frameworks.find((f) => ['React', 'Vue', 'Svelte', 'Angular', 'Next.js', 'Nuxt'].includes(f)) ||
+    'Frontend';
 
   nodes.push(`  A[${framework} App] --> B[Pages/Routes]`);
   nodes.push('  B --> C[Components]');
@@ -131,7 +138,11 @@ function buildFrontendDiagram(
   nodes.push('  C --> E[API Client]');
   nodes.push('  E --> F[Backend API]');
 
-  if (deps.mainDependencies.some(d => d.includes('redux') || d.includes('zustand') || d.includes('pinia'))) {
+  if (
+    deps.mainDependencies.some(
+      (d) => d.includes('redux') || d.includes('zustand') || d.includes('pinia'),
+    )
+  ) {
     nodes.push('  D --> G[Store]');
   }
 
@@ -143,7 +154,7 @@ function buildFrontendDiagram(
   };
 }
 
-function buildGenericDiagram(scan: ScanResult, deps: DependencyAnalysis): DiagramResult {
+function buildGenericDiagram(scan: ScanResult, _deps: DependencyAnalysis): DiagramResult {
   const nodes: string[] = [];
 
   // Group files by top-level directory
@@ -153,9 +164,7 @@ function buildGenericDiagram(scan: ScanResult, deps: DependencyAnalysis): Diagra
     dirs.set(topDir, (dirs.get(topDir) || 0) + 1);
   }
 
-  const topDirs = [...dirs.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 6);
+  const topDirs = [...dirs.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6);
 
   if (topDirs.length === 0) {
     return {
@@ -182,7 +191,7 @@ async function buildWithAI(
   scan: ScanResult,
   code: CodeAnalysis,
   deps: DependencyAnalysis,
-  provider: AIProvider
+  provider: AIProvider,
 ): Promise<DiagramResult> {
   const prompt = `Generate a Mermaid architecture diagram for this project.
 
@@ -197,18 +206,22 @@ Project info:
 Directory structure:
 ${scan.directoryTree}
 
-API endpoints: ${code.apiEndpoints.map(e => `${e.method} ${e.path}`).join(', ') || 'None'}
+API endpoints: ${code.apiEndpoints.map((e) => `${e.method} ${e.path}`).join(', ') || 'None'}
 
 Return ONLY valid Mermaid code starting with "graph TD" or "flowchart TD". No markdown fences, no explanation. Keep it under 15 nodes.`;
 
   try {
     const response = await provider.generate(prompt);
-    const mermaidCode = response.trim().replace(/^```mermaid\n?/, '').replace(/\n?```$/, '');
+    const mermaidCode = response
+      .trim()
+      .replace(/^```mermaid\n?/, '')
+      .replace(/\n?```$/, '');
 
     return {
       type: 'graph',
       mermaidCode,
-      description: 'AI-generated architecture diagram showing the main components and their relationships.',
+      description:
+        'AI-generated architecture diagram showing the main components and their relationships.',
     };
   } catch {
     // Fall back to generic diagram

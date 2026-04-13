@@ -7,8 +7,8 @@ export function createGeminiProvider(model?: string): AIProvider {
   if (!apiKey) {
     throw new Error(
       'GEMINI_API_KEY not set.\n' +
-      'Export your key: export GEMINI_API_KEY=...\n' +
-      'Or use Ollama for free: --provider ollama'
+        'Export your key: export GEMINI_API_KEY=...\n' +
+        'Or use Ollama for free: --provider ollama',
     );
   }
 
@@ -28,9 +28,13 @@ export function createGeminiProvider(model?: string): AIProvider {
     async generateJSON<T>(prompt: string): Promise<T> {
       const genModel = genAI.getGenerativeModel({ model: modelId });
       const result = await genModel.generateContent(
-        prompt + '\n\nRespond with valid JSON only. No markdown fences, no explanation.'
+        prompt + '\n\nRespond with valid JSON only. No markdown fences, no explanation.',
       );
-      const text = result.response.text().trim().replace(/^```json\n?/, '').replace(/\n?```$/, '');
+      const text = result.response
+        .text()
+        .trim()
+        .replace(/^```json\n?/, '')
+        .replace(/\n?```$/, '');
       return JSON.parse(text) as T;
     },
   };

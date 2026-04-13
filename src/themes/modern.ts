@@ -25,7 +25,7 @@ ${data.description}`);
   if (data.keyFeatures.length > 0) {
     sections.push(`## ⚡ Features
 
-${data.keyFeatures.map(f => `> ${f}`).join('\n>\n')}`);
+${data.keyFeatures.map((f) => `> ${f}`).join('\n>\n')}`);
   }
 
   // Architecture
@@ -64,7 +64,7 @@ ${data.directoryTree}
   if (data.installSection.prerequisites.length > 0) {
     installLines.push('> **Prerequisites**');
     installLines.push('>');
-    installLines.push(data.installSection.prerequisites.map(p => `> - ${p}`).join('\n'));
+    installLines.push(data.installSection.prerequisites.map((p) => `> - ${p}`).join('\n'));
     installLines.push('');
   }
 

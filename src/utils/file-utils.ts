@@ -3,15 +3,46 @@ import path from 'node:path';
 import fg from 'fast-glob';
 
 export const DEFAULT_IGNORES = [
-  'node_modules', 'dist', 'build', '.git', 'coverage', '__pycache__',
-  '.next', '.nuxt', '.svelte-kit', '.output', '.cache', '.parcel-cache',
-  'target', 'vendor', '.venv', 'venv', 'env',
-  '*.lock', 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml',
-  '*.min.js', '*.min.css', '*.map',
-  '*.png', '*.jpg', '*.jpeg', '*.gif', '*.svg', '*.ico', '*.webp',
-  '*.woff', '*.woff2', '*.ttf', '*.eot',
-  '*.zip', '*.tar.gz', '*.tgz',
-  '.DS_Store', 'Thumbs.db',
+  'node_modules',
+  'dist',
+  'build',
+  '.git',
+  'coverage',
+  '__pycache__',
+  '.next',
+  '.nuxt',
+  '.svelte-kit',
+  '.output',
+  '.cache',
+  '.parcel-cache',
+  'target',
+  'vendor',
+  '.venv',
+  'venv',
+  'env',
+  '*.lock',
+  'package-lock.json',
+  'yarn.lock',
+  'pnpm-lock.yaml',
+  '*.min.js',
+  '*.min.css',
+  '*.map',
+  '*.png',
+  '*.jpg',
+  '*.jpeg',
+  '*.gif',
+  '*.svg',
+  '*.ico',
+  '*.webp',
+  '*.woff',
+  '*.woff2',
+  '*.ttf',
+  '*.eot',
+  '*.zip',
+  '*.tar.gz',
+  '*.tgz',
+  '.DS_Store',
+  'Thumbs.db',
 ];
 
 export async function readFileContent(filePath: string): Promise<string> {
@@ -31,9 +62,10 @@ export async function loadIgnorePatterns(repoPath: string): Promise<string[]> {
   const ignorePath = path.join(repoPath, '.readmeaiignore');
   try {
     const content = await readFileContent(ignorePath);
-    const custom = content.split('\n')
-      .map(l => l.trim())
-      .filter(l => l && !l.startsWith('#'));
+    const custom = content
+      .split('\n')
+      .map((l) => l.trim())
+      .filter((l) => l && !l.startsWith('#'));
     return [...DEFAULT_IGNORES, ...custom];
   } catch {
     return DEFAULT_IGNORES;
@@ -41,7 +73,7 @@ export async function loadIgnorePatterns(repoPath: string): Promise<string[]> {
 }
 
 export async function globFiles(repoPath: string, ignores: string[]): Promise<string[]> {
-  const ignorePatterns = ignores.map(i => `**/${i}/**`);
+  const ignorePatterns = ignores.map((i) => `**/${i}/**`);
   return fg('**/*', {
     cwd: repoPath,
     ignore: ignorePatterns,

@@ -25,7 +25,12 @@ export async function generateOverview(params: {
 
 PROJECT INFO:
 - Primary language: ${scan.languages[0]?.name || 'Unknown'} (${scan.languages[0]?.percentage || 0}%)
-- Other languages: ${scan.languages.slice(1, 4).map(l => l.name).join(', ') || 'None'}
+- Other languages: ${
+    scan.languages
+      .slice(1, 4)
+      .map((l) => l.name)
+      .join(', ') || 'None'
+  }
 - Frameworks: ${scan.frameworks.join(', ') || 'None detected'}
 - Package manager: ${deps.packageManager || 'None detected'}
 - Has tests: ${scan.hasTests}
@@ -44,9 +49,14 @@ ENTRY POINTS:
 ${scan.entryPoints.join(', ') || 'None found'}
 
 KEY CODE PATTERNS DETECTED:
-- API Endpoints: ${codeAnalysis.apiEndpoints.map(e => `${e.method} ${e.path}`).join(', ') || 'None'}
-- CLI Commands: ${codeAnalysis.cliCommands.map(c => c.name).join(', ') || 'None'}
-- Main exports: ${codeAnalysis.exports.slice(0, 10).map(e => e.name).join(', ') || 'None'}
+- API Endpoints: ${codeAnalysis.apiEndpoints.map((e) => `${e.method} ${e.path}`).join(', ') || 'None'}
+- CLI Commands: ${codeAnalysis.cliCommands.map((c) => c.name).join(', ') || 'None'}
+- Main exports: ${
+    codeAnalysis.exports
+      .slice(0, 10)
+      .map((e) => e.name)
+      .join(', ') || 'None'
+  }
 - Environment variables: ${codeAnalysis.envVariables.join(', ') || 'None'}
 
 ${existingDescription ? `EXISTING DESCRIPTION: ${existingDescription}` : ''}
@@ -73,20 +83,28 @@ function buildFallbackOverview(
   scan: ScanResult,
   deps: DependencyAnalysis,
   code: CodeAnalysis,
-  existingDescription?: string
+  existingDescription?: string,
 ): OverviewResult {
   const lang = scan.languages[0]?.name || 'Unknown';
   const frameworks = scan.frameworks;
 
-  const tagline = existingDescription || `A ${lang} project${frameworks.length ? ` built with ${frameworks[0]}` : ''}`;
+  const tagline =
+    existingDescription ||
+    `A ${lang} project${frameworks.length ? ` built with ${frameworks[0]}` : ''}`;
 
   const parts: string[] = [];
-  parts.push(`This project is built with ${lang}${frameworks.length ? ` using ${frameworks.join(', ')}` : ''}.`);
+  parts.push(
+    `This project is built with ${lang}${frameworks.length ? ` using ${frameworks.join(', ')}` : ''}.`,
+  );
   if (code.apiEndpoints.length > 0) {
-    parts.push(`It exposes ${code.apiEndpoints.length} API endpoint${code.apiEndpoints.length > 1 ? 's' : ''}.`);
+    parts.push(
+      `It exposes ${code.apiEndpoints.length} API endpoint${code.apiEndpoints.length > 1 ? 's' : ''}.`,
+    );
   }
   if (code.cliCommands.length > 0) {
-    parts.push(`It provides ${code.cliCommands.length} CLI command${code.cliCommands.length > 1 ? 's' : ''}.`);
+    parts.push(
+      `It provides ${code.cliCommands.length} CLI command${code.cliCommands.length > 1 ? 's' : ''}.`,
+    );
   }
   if (scan.hasTests) parts.push('The project includes a test suite.');
   if (scan.hasDocker) parts.push('Docker support is included for containerized deployment.');

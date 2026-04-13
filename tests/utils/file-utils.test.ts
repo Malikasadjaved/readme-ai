@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { generateTree, getFileExtension, getFileName } from '../../src/utils/file-utils.js';
 
 // Only test pure functions here — avoid mocking fs for readFileContent/fileExists/globFiles
@@ -20,8 +20,8 @@ describe('generateTree', () => {
     const tree = generateTree(files);
     const lines = tree.split('\n');
     // Directory 'a' should come before file 'b.ts'
-    const aIdx = lines.findIndex(l => l.includes('a'));
-    const bIdx = lines.findIndex(l => l.includes('b.ts'));
+    const aIdx = lines.findIndex((l) => l.includes('a'));
+    const bIdx = lines.findIndex((l) => l.includes('b.ts'));
     expect(aIdx).toBeLessThan(bIdx);
   });
 

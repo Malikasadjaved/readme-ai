@@ -137,7 +137,9 @@ describe('analyzeDependencies', () => {
   describe('pyproject.toml projects', () => {
     it('detects pip install -e .', async () => {
       const { readFileContent } = await import('../../src/utils/file-utils.js');
-      (readFileContent as ReturnType<typeof vi.fn>).mockResolvedValue('[project]\nname = "myapp"\n[tool.pytest]');
+      (readFileContent as ReturnType<typeof vi.fn>).mockResolvedValue(
+        '[project]\nname = "myapp"\n[tool.pytest]',
+      );
 
       const repo = makeRepo({
         files: [makeFile('pyproject.toml')],

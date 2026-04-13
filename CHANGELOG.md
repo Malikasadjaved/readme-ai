@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-04-14
+
+### Added
+
+- Plugin system for custom analyzers and themes (`src/plugins/`)
+- Auto-discovery of `readme-ai-plugin-*` npm packages
+- Plugin config support via `plugins` array in `readme-ai.config.js`
+- CONTRIBUTING.md with development setup, contribution workflow, and plugin authoring guide
+- CLAUDE.md project context for AI-powered coding tools
+- Pre-commit hooks with Husky and lint-staged (ESLint + Prettier on staged `.ts` files)
+- Dependency analysis for Gradle, Maven, Ruby (Bundler), Swift, and Dart/Flutter projects
+- Plugin system tests (8 tests)
+- Viral SEO keywords and badges for npm discoverability
+- Supported languages table in README
+
+### Fixed
+
+- Build errors from missing dependency analyzer functions (Gradle, Maven, Ruby, Swift, Dart)
+
+### Changed
+
+- README.md rewritten with full feature list, comparison table, plugin docs, and SEO
+- package.json description and keywords expanded for maximum discoverability
+- Architecture diagram updated to include plugin system
+
 ## [1.0.1] - 2026-04-11
 
 ### Fixed
@@ -31,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `.readmeaiignore` support for excluding files from analysis
 - Published to npm as `@malikasadjaved/readme-ai`
 
-[Unreleased]: https://github.com/malikasadjaved/readme-ai/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/malikasadjaved/readme-ai/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/malikasadjaved/readme-ai/compare/v1.0.1...v1.2.0
 [1.0.1]: https://github.com/malikasadjaved/readme-ai/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/malikasadjaved/readme-ai/releases/tag/v1.0.0

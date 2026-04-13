@@ -51,7 +51,8 @@ export function generateInstallSection(deps: DependencyAnalysis, scan: ScanResul
       prerequisites.push('pip');
       installSteps.push({
         title: 'Create a virtual environment',
-        command: 'python -m venv venv\nsource venv/bin/activate  # On Windows: venv\\Scripts\\activate',
+        command:
+          'python -m venv venv\nsource venv/bin/activate  # On Windows: venv\\Scripts\\activate',
       });
       installSteps.push({
         title: 'Install dependencies',

@@ -30,7 +30,7 @@ describe('analyzeCode', () => {
       mock.mockResolvedValue('export function foo(x: number): string { return ""; }');
 
       const result = await analyzeCode([makeFile('src/index.ts')]);
-      expect(result.exports.some(e => e.name === 'foo' && e.type === 'function')).toBe(true);
+      expect(result.exports.some((e) => e.name === 'foo' && e.type === 'function')).toBe(true);
     });
 
     it('extracts exported classes', async () => {
@@ -38,7 +38,7 @@ describe('analyzeCode', () => {
       mock.mockResolvedValue('export class MyService extends Base { }');
 
       const result = await analyzeCode([makeFile('src/service.ts')]);
-      expect(result.exports.some(e => e.name === 'MyService' && e.type === 'class')).toBe(true);
+      expect(result.exports.some((e) => e.name === 'MyService' && e.type === 'class')).toBe(true);
     });
 
     it('extracts exported constants', async () => {
@@ -46,7 +46,7 @@ describe('analyzeCode', () => {
       mock.mockResolvedValue('export const config: Config = {};');
 
       const result = await analyzeCode([makeFile('src/config.ts')]);
-      expect(result.exports.some(e => e.name === 'config' && e.type === 'const')).toBe(true);
+      expect(result.exports.some((e) => e.name === 'config' && e.type === 'const')).toBe(true);
     });
 
     it('extracts exported interfaces', async () => {
@@ -54,7 +54,7 @@ describe('analyzeCode', () => {
       mock.mockResolvedValue('export interface Options { timeout: number; }');
 
       const result = await analyzeCode([makeFile('src/types.ts')]);
-      expect(result.exports.some(e => e.name === 'Options' && e.type === 'interface')).toBe(true);
+      expect(result.exports.some((e) => e.name === 'Options' && e.type === 'interface')).toBe(true);
     });
 
     it('extracts exported types', async () => {
@@ -62,7 +62,7 @@ describe('analyzeCode', () => {
       mock.mockResolvedValue('export type Theme = "default" | "dark";');
 
       const result = await analyzeCode([makeFile('src/types.ts')]);
-      expect(result.exports.some(e => e.name === 'Theme' && e.type === 'type')).toBe(true);
+      expect(result.exports.some((e) => e.name === 'Theme' && e.type === 'type')).toBe(true);
     });
   });
 
@@ -74,10 +74,10 @@ describe('analyzeCode', () => {
       const result = await analyzeCode([makeFile('src/routes.ts')]);
       expect(result.apiEndpoints).toHaveLength(2);
       expect(result.apiEndpoints[0]).toEqual(
-        expect.objectContaining({ method: 'GET', path: '/users' })
+        expect.objectContaining({ method: 'GET', path: '/users' }),
       );
       expect(result.apiEndpoints[1]).toEqual(
-        expect.objectContaining({ method: 'POST', path: '/users' })
+        expect.objectContaining({ method: 'POST', path: '/users' }),
       );
     });
 
@@ -86,7 +86,9 @@ describe('analyzeCode', () => {
       mock.mockResolvedValue(`@app.post("/items")\ndef create_item(): pass`);
 
       const result = await analyzeCode([makeFile('app/main.py', 'Python')]);
-      expect(result.apiEndpoints.some(e => e.method === 'POST' && e.path === '/items')).toBe(true);
+      expect(result.apiEndpoints.some((e) => e.method === 'POST' && e.path === '/items')).toBe(
+        true,
+      );
     });
   });
 
@@ -96,7 +98,9 @@ describe('analyzeCode', () => {
       mock.mockResolvedValue(`.command('init').description('Initialize project')`);
 
       const result = await analyzeCode([makeFile('src/cli.ts')]);
-      expect(result.cliCommands.some(c => c.name === 'init' && c.description === 'Initialize project')).toBe(true);
+      expect(
+        result.cliCommands.some((c) => c.name === 'init' && c.description === 'Initialize project'),
+      ).toBe(true);
     });
   });
 

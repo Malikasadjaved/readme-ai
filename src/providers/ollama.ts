@@ -23,12 +23,12 @@ export function createOllamaProvider(model?: string): AIProvider {
       if (!response.ok) {
         throw new Error(
           `Ollama request failed (${response.status}).\n` +
-          'Make sure Ollama is running: ollama serve\n' +
-          `And the model is pulled: ollama pull ${modelId}`
+            'Make sure Ollama is running: ollama serve\n' +
+            `And the model is pulled: ollama pull ${modelId}`,
         );
       }
 
-      const data = await response.json() as { response: string };
+      const data = (await response.json()) as { response: string };
       return data.response;
     },
 
@@ -48,8 +48,11 @@ export function createOllamaProvider(model?: string): AIProvider {
         throw new Error(`Ollama request failed (${response.status})`);
       }
 
-      const data = await response.json() as { response: string };
-      const text = data.response.trim().replace(/^```json\n?/, '').replace(/\n?```$/, '');
+      const data = (await response.json()) as { response: string };
+      const text = data.response
+        .trim()
+        .replace(/^```json\n?/, '')
+        .replace(/\n?```$/, '');
       return JSON.parse(text) as T;
     },
   };

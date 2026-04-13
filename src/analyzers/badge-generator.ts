@@ -20,45 +20,45 @@ function shieldsBadge(label: string, message: string, color: string, logo?: stri
 }
 
 const LANGUAGE_BADGES: Record<string, { color: string; logo: string }> = {
-  'TypeScript': { color: '3178C6', logo: 'typescript' },
-  'JavaScript': { color: 'F7DF1E', logo: 'javascript' },
-  'Python': { color: '3776AB', logo: 'python' },
-  'Rust': { color: '000000', logo: 'rust' },
-  'Go': { color: '00ADD8', logo: 'go' },
-  'Java': { color: 'ED8B00', logo: 'openjdk' },
+  TypeScript: { color: '3178C6', logo: 'typescript' },
+  JavaScript: { color: 'F7DF1E', logo: 'javascript' },
+  Python: { color: '3776AB', logo: 'python' },
+  Rust: { color: '000000', logo: 'rust' },
+  Go: { color: '00ADD8', logo: 'go' },
+  Java: { color: 'ED8B00', logo: 'openjdk' },
   'C#': { color: '239120', logo: 'csharp' },
   'C++': { color: '00599C', logo: 'cplusplus' },
-  'Ruby': { color: 'CC342D', logo: 'ruby' },
-  'PHP': { color: '777BB4', logo: 'php' },
-  'Swift': { color: 'FA7343', logo: 'swift' },
-  'Kotlin': { color: '7F52FF', logo: 'kotlin' },
-  'Dart': { color: '0175C2', logo: 'dart' },
-  'Scala': { color: 'DC322F', logo: 'scala' },
+  Ruby: { color: 'CC342D', logo: 'ruby' },
+  PHP: { color: '777BB4', logo: 'php' },
+  Swift: { color: 'FA7343', logo: 'swift' },
+  Kotlin: { color: '7F52FF', logo: 'kotlin' },
+  Dart: { color: '0175C2', logo: 'dart' },
+  Scala: { color: 'DC322F', logo: 'scala' },
 };
 
 const FRAMEWORK_BADGES: Record<string, { color: string; logo: string }> = {
-  'React': { color: '61DAFB', logo: 'react' },
+  React: { color: '61DAFB', logo: 'react' },
   'Next.js': { color: '000000', logo: 'nextdotjs' },
-  'Vue': { color: '4FC08D', logo: 'vuedotjs' },
-  'Nuxt': { color: '00DC82', logo: 'nuxtdotjs' },
-  'Angular': { color: 'DD0031', logo: 'angular' },
-  'Svelte': { color: 'FF3E00', logo: 'svelte' },
-  'Express': { color: '000000', logo: 'express' },
-  'Fastify': { color: '000000', logo: 'fastify' },
-  'NestJS': { color: 'E0234E', logo: 'nestjs' },
-  'FastAPI': { color: '009688', logo: 'fastapi' },
-  'Django': { color: '092E20', logo: 'django' },
-  'Flask': { color: '000000', logo: 'flask' },
-  'Prisma': { color: '2D3748', logo: 'prisma' },
-  'Docker': { color: '2496ED', logo: 'docker' },
+  Vue: { color: '4FC08D', logo: 'vuedotjs' },
+  Nuxt: { color: '00DC82', logo: 'nuxtdotjs' },
+  Angular: { color: 'DD0031', logo: 'angular' },
+  Svelte: { color: 'FF3E00', logo: 'svelte' },
+  Express: { color: '000000', logo: 'express' },
+  Fastify: { color: '000000', logo: 'fastify' },
+  NestJS: { color: 'E0234E', logo: 'nestjs' },
+  FastAPI: { color: '009688', logo: 'fastapi' },
+  Django: { color: '092E20', logo: 'django' },
+  Flask: { color: '000000', logo: 'flask' },
+  Prisma: { color: '2D3748', logo: 'prisma' },
+  Docker: { color: '2496ED', logo: 'docker' },
   'Tailwind CSS': { color: '06B6D4', logo: 'tailwindcss' },
-  'Vite': { color: '646CFF', logo: 'vite' },
+  Vite: { color: '646CFF', logo: 'vite' },
 };
 
 export function generateBadges(
   scan: ScanResult,
   deps: DependencyAnalysis,
-  githubMeta?: GitHubMeta
+  githubMeta?: GitHubMeta,
 ): Badge[] {
   const badges: Badge[] = [];
 
@@ -162,5 +162,5 @@ export function generateBadges(
 }
 
 export function formatBadgeRow(badges: Badge[]): string {
-  return badges.map(b => b.markdown).join(' ');
+  return badges.map((b) => b.markdown).join(' ');
 }

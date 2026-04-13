@@ -54,8 +54,20 @@ const EXTENSION_MAP: Record<string, { name: string; icon: string }> = {
 };
 
 const CONFIG_EXTENSIONS = new Set([
-  'json', 'yaml', 'yml', 'toml', 'xml', 'ini', 'cfg', 'conf',
-  'env', 'properties', 'md', 'mdx', 'txt', 'lock',
+  'json',
+  'yaml',
+  'yml',
+  'toml',
+  'xml',
+  'ini',
+  'cfg',
+  'conf',
+  'env',
+  'properties',
+  'md',
+  'mdx',
+  'txt',
+  'lock',
 ]);
 
 const TEST_PATTERNS = [
@@ -68,12 +80,26 @@ const TEST_PATTERNS = [
 ];
 
 const ENTRY_POINT_NAMES = new Set([
-  'index.ts', 'index.js', 'index.tsx', 'index.jsx',
-  'main.ts', 'main.js', 'main.py', 'main.go', 'main.rs',
-  'app.ts', 'app.js', 'app.py',
-  'server.ts', 'server.js', 'server.py',
-  'mod.rs', 'lib.rs',
-  'cli.ts', 'cli.js', 'cli.py',
+  'index.ts',
+  'index.js',
+  'index.tsx',
+  'index.jsx',
+  'main.ts',
+  'main.js',
+  'main.py',
+  'main.go',
+  'main.rs',
+  'app.ts',
+  'app.js',
+  'app.py',
+  'server.ts',
+  'server.js',
+  'server.py',
+  'mod.rs',
+  'lib.rs',
+  'cli.ts',
+  'cli.js',
+  'cli.py',
 ]);
 
 export function detectLanguage(filePath: string): string {
@@ -89,15 +115,17 @@ export function getLanguageIcon(filePath: string): string {
 export function isConfigFile(filePath: string): boolean {
   const ext = getFileExtension(filePath);
   const name = filePath.split('/').pop() || '';
-  return CONFIG_EXTENSIONS.has(ext) ||
+  return (
+    CONFIG_EXTENSIONS.has(ext) ||
     name.startsWith('.') ||
     name === 'Dockerfile' ||
     name === 'Makefile' ||
-    name === 'Procfile';
+    name === 'Procfile'
+  );
 }
 
 export function isTestFile(filePath: string): boolean {
-  return TEST_PATTERNS.some(p => p.test(filePath));
+  return TEST_PATTERNS.some((p) => p.test(filePath));
 }
 
 export function isEntryPoint(filePath: string): boolean {
@@ -106,7 +134,7 @@ export function isEntryPoint(filePath: string): boolean {
 }
 
 export function calculateLanguageStats(files: string[]): LanguageStat[] {
-  const codeFiles = files.filter(f => !isConfigFile(f) && !isTestFile(f));
+  const codeFiles = files.filter((f) => !isConfigFile(f) && !isTestFile(f));
   const counts: Record<string, { count: number; icon: string }> = {};
 
   for (const file of codeFiles) {
@@ -132,26 +160,29 @@ export function calculateLanguageStats(files: string[]): LanguageStat[] {
     .sort((a, b) => b.files - a.files);
 }
 
-export const FRAMEWORK_INDICATORS: Record<string, { deps?: string[]; files?: string[]; imports?: string[] }> = {
-  'React': { deps: ['react', 'react-dom'], imports: ['react'] },
+export const FRAMEWORK_INDICATORS: Record<
+  string,
+  { deps?: string[]; files?: string[]; imports?: string[] }
+> = {
+  React: { deps: ['react', 'react-dom'], imports: ['react'] },
   'Next.js': { deps: ['next'], files: ['next.config.js', 'next.config.ts', 'next.config.mjs'] },
-  'Vue': { deps: ['vue'], imports: ['vue'] },
-  'Nuxt': { deps: ['nuxt'], files: ['nuxt.config.ts', 'nuxt.config.js'] },
-  'Svelte': { deps: ['svelte'], files: ['svelte.config.js'] },
-  'Angular': { deps: ['@angular/core'], files: ['angular.json'] },
-  'Express': { deps: ['express'], imports: ['express'] },
-  'Fastify': { deps: ['fastify'], imports: ['fastify'] },
-  'Koa': { deps: ['koa'], imports: ['koa'] },
-  'NestJS': { deps: ['@nestjs/core'] },
-  'FastAPI': { imports: ['fastapi'] },
-  'Django': { imports: ['django'], files: ['manage.py'] },
-  'Flask': { imports: ['flask'] },
+  Vue: { deps: ['vue'], imports: ['vue'] },
+  Nuxt: { deps: ['nuxt'], files: ['nuxt.config.ts', 'nuxt.config.js'] },
+  Svelte: { deps: ['svelte'], files: ['svelte.config.js'] },
+  Angular: { deps: ['@angular/core'], files: ['angular.json'] },
+  Express: { deps: ['express'], imports: ['express'] },
+  Fastify: { deps: ['fastify'], imports: ['fastify'] },
+  Koa: { deps: ['koa'], imports: ['koa'] },
+  NestJS: { deps: ['@nestjs/core'] },
+  FastAPI: { imports: ['fastapi'] },
+  Django: { imports: ['django'], files: ['manage.py'] },
+  Flask: { imports: ['flask'] },
   'Spring Boot': { files: ['pom.xml', 'build.gradle'] },
-  'Prisma': { deps: ['prisma', '@prisma/client'], files: ['prisma/schema.prisma'] },
-  'Drizzle': { deps: ['drizzle-orm'] },
-  'TypeORM': { deps: ['typeorm'] },
+  Prisma: { deps: ['prisma', '@prisma/client'], files: ['prisma/schema.prisma'] },
+  Drizzle: { deps: ['drizzle-orm'] },
+  TypeORM: { deps: ['typeorm'] },
   'Tailwind CSS': { deps: ['tailwindcss'], files: ['tailwind.config.js', 'tailwind.config.ts'] },
-  'Vite': { deps: ['vite'], files: ['vite.config.ts', 'vite.config.js'] },
-  'Webpack': { deps: ['webpack'], files: ['webpack.config.js'] },
-  'Docker': { files: ['Dockerfile', 'docker-compose.yml', 'docker-compose.yaml'] },
+  Vite: { deps: ['vite'], files: ['vite.config.ts', 'vite.config.js'] },
+  Webpack: { deps: ['webpack'], files: ['webpack.config.js'] },
+  Docker: { files: ['Dockerfile', 'docker-compose.yml', 'docker-compose.yaml'] },
 };

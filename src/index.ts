@@ -17,7 +17,11 @@ program
   .option('-o, --output <file>', 'Output file path', 'README.md')
   .option('-p, --provider <name>', 'AI provider: anthropic | openai | gemini | ollama', 'anthropic')
   .option('-m, --model <name>', 'Model name (depends on provider)')
-  .option('-t, --theme <name>', 'README theme: default | minimal | hacker | modern | academic', 'default')
+  .option(
+    '-t, --theme <name>',
+    'README theme: default | minimal | hacker | modern | academic',
+    'default',
+  )
   .option('--no-diagram', 'Skip Mermaid architecture diagram')
   .option('--no-badges', 'Skip badge generation')
   .option('--no-api-docs', 'Skip API documentation section')

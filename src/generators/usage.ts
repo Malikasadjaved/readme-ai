@@ -58,10 +58,13 @@ export async function generateUsageSection(params: {
 
   // API endpoints
   if (codeAnalysis.apiEndpoints.length > 0) {
-    const curlExamples = codeAnalysis.apiEndpoints.slice(0, 3).map(ep => {
-      const method = ep.method === 'GET' ? '' : ` -X ${ep.method}`;
-      return `curl${method} http://localhost:3000${ep.path}`;
-    }).join('\n');
+    const curlExamples = codeAnalysis.apiEndpoints
+      .slice(0, 3)
+      .map((ep) => {
+        const method = ep.method === 'GET' ? '' : ` -X ${ep.method}`;
+        return `curl${method} http://localhost:3000${ep.path}`;
+      })
+      .join('\n');
 
     examples.push({
       title: 'API Examples',
@@ -73,8 +76,9 @@ export async function generateUsageSection(params: {
 
   // CLI commands
   if (codeAnalysis.cliCommands.length > 0) {
-    const cmdExamples = codeAnalysis.cliCommands.slice(0, 3)
-      .map(cmd => `# ${cmd.description}\n${cmd.name}`)
+    const cmdExamples = codeAnalysis.cliCommands
+      .slice(0, 3)
+      .map((cmd) => `# ${cmd.description}\n${cmd.name}`)
       .join('\n\n');
 
     examples.push({
@@ -97,7 +101,6 @@ export async function generateUsageSection(params: {
 
   // Ensure at least one example
   if (examples.length === 0) {
-    const lang = scan.languages[0]?.name || 'Unknown';
     examples.push({
       title: 'Getting Started',
       description: `Start using the project:`,
@@ -112,9 +115,12 @@ export async function generateUsageSection(params: {
 async function generateAIUsageExamples(
   code: CodeAnalysis,
   scan: ScanResult,
-  provider: AIProvider
+  provider: AIProvider,
 ): Promise<UsageExample[]> {
-  const exports = code.exports.slice(0, 5).map(e => `${e.type} ${e.signature} (${e.file})`).join('\n');
+  const exports = code.exports
+    .slice(0, 5)
+    .map((e) => `${e.type} ${e.signature} (${e.file})`)
+    .join('\n');
 
   const prompt = `Generate 2 practical usage examples for this project.
 
@@ -146,9 +152,9 @@ export async function generateAPIDocs(params: {
 
   // Group exports by file
   const entries: APIDocEntry[] = codeAnalysis.exports
-    .filter(exp => exp.type === 'function' || exp.type === 'class')
+    .filter((exp) => exp.type === 'function' || exp.type === 'class')
     .slice(0, 20)
-    .map(exp => ({
+    .map((exp) => ({
       name: exp.name,
       signature: exp.signature,
       description: '',
@@ -160,7 +166,7 @@ export async function generateAPIDocs(params: {
     try {
       const prompt = `Generate brief descriptions (1 sentence each) for these exported functions/classes:
 
-${entries.map(e => `- ${e.signature} (in ${e.file})`).join('\n')}
+${entries.map((e) => `- ${e.signature} (in ${e.file})`).join('\n')}
 
 Return JSON:
 {

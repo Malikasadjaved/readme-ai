@@ -1,15 +1,12 @@
-import { readFileContent, fileExists } from '../utils/file-utils.js';
+import { readFileContent } from '../utils/file-utils.js';
 import { generateTree } from '../utils/file-utils.js';
 import {
   calculateLanguageStats,
   isTestFile,
-  isConfigFile,
-  isEntryPoint,
   FRAMEWORK_INDICATORS,
   type LanguageStat,
 } from '../utils/language-detector.js';
 import type { RepoContent, FileEntry } from './repo-fetcher.js';
-import path from 'node:path';
 
 export interface ScanResult {
   totalFiles: number;
@@ -27,32 +24,33 @@ export interface ScanResult {
 
 export async function scanFiles(repoContent: RepoContent): Promise<ScanResult> {
   const { files } = repoContent;
-  const filePaths = files.map(f => f.path);
+  const filePaths = files.map((f) => f.path);
 
   const languages = calculateLanguageStats(filePaths);
   const frameworks = await detectFrameworks(repoContent);
 
-  const hasTests = files.some(f => f.isTest || isTestFile(f.path));
-  const hasDocker = files.some(f => {
+  const hasTests = files.some((f) => f.isTest || isTestFile(f.path));
+  const hasDocker = files.some((f) => {
     const name = f.path.split('/').pop() || '';
     return name === 'Dockerfile' || name.startsWith('docker-compose');
   });
-  const hasCICD = files.some(f =>
-    f.path.includes('.github/workflows/') ||
-    f.path.includes('.gitlab-ci') ||
-    f.path.includes('.circleci/') ||
-    f.path.includes('Jenkinsfile')
+  const hasCICD = files.some(
+    (f) =>
+      f.path.includes('.github/workflows/') ||
+      f.path.includes('.gitlab-ci') ||
+      f.path.includes('.circleci/') ||
+      f.path.includes('Jenkinsfile'),
   );
 
   const hasLicense = await detectLicense(repoContent);
 
-  const entryPoints = files.filter(f => f.isEntryPoint).map(f => f.path);
-  const configFiles = files.filter(f => f.isConfig).map(f => f.path);
+  const entryPoints = files.filter((f) => f.isEntryPoint).map((f) => f.path);
+  const configFiles = files.filter((f) => f.isConfig).map((f) => f.path);
   const directoryTree = generateTree(filePaths, 3);
 
   // Key files: entry points + src/ files (non-test, non-config), limited to 30
   const keyFiles = files
-    .filter(f => !f.isTest && !f.isConfig)
+    .filter((f) => !f.isTest && !f.isConfig)
     .sort((a, b) => {
       if (a.isEntryPoint && !b.isEntryPoint) return -1;
       if (!a.isEntryPoint && b.isEntryPoint) return 1;
@@ -77,28 +75,28 @@ export async function scanFiles(repoContent: RepoContent): Promise<ScanResult> {
 
 async function detectFrameworks(repo: RepoContent): Promise<string[]> {
   const detected: string[] = [];
-  const filePaths = new Set(repo.files.map(f => f.path.split('/').pop() || ''));
-  const allPaths = new Set(repo.files.map(f => f.path));
+  const filePaths = new Set(repo.files.map((f) => f.path.split('/').pop() || ''));
+  const allPaths = new Set(repo.files.map((f) => f.path));
 
   // Get dependencies from package.json
   const deps = new Set<string>();
   if (repo.packageJson) {
     const pkg = repo.packageJson as Record<string, unknown>;
     const allDeps = {
-      ...(pkg.dependencies as Record<string, string> || {}),
-      ...(pkg.devDependencies as Record<string, string> || {}),
+      ...((pkg.dependencies as Record<string, string>) || {}),
+      ...((pkg.devDependencies as Record<string, string>) || {}),
     };
-    Object.keys(allDeps).forEach(d => deps.add(d));
+    Object.keys(allDeps).forEach((d) => deps.add(d));
   }
 
   for (const [framework, indicators] of Object.entries(FRAMEWORK_INDICATORS)) {
     // Check dependency names
-    if (indicators.deps?.some(d => deps.has(d))) {
+    if (indicators.deps?.some((d) => deps.has(d))) {
       detected.push(framework);
       continue;
     }
     // Check file existence
-    if (indicators.files?.some(f => filePaths.has(f) || allPaths.has(f))) {
+    if (indicators.files?.some((f) => filePaths.has(f) || allPaths.has(f))) {
       detected.push(framework);
       continue;
     }
@@ -112,7 +110,7 @@ async function detectLicense(repo: RepoContent): Promise<string | null> {
     return repo.githubMeta.license;
   }
 
-  const licenseFile = repo.files.find(f => {
+  const licenseFile = repo.files.find((f) => {
     const name = (f.path.split('/').pop() || '').toLowerCase();
     return name === 'license' || name === 'license.md' || name === 'license.txt';
   });

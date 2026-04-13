@@ -1,4 +1,7 @@
 import Conf from 'conf';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+import fs from 'node:fs/promises';
 
 export interface ReadmeAIConfig {
   provider: 'anthropic' | 'openai' | 'gemini' | 'ollama';
@@ -10,6 +13,20 @@ export interface ReadmeAIConfig {
   github_token?: string;
   default_theme?: string;
   default_output?: string;
+}
+
+export interface ProjectConfig {
+  provider?: string;
+  model?: string;
+  theme?: string;
+  output?: string;
+  diagram?: boolean;
+  badges?: boolean;
+  apiDocs?: boolean;
+  action?: boolean;
+  context?: string;
+  ignore?: string[];
+  plugins?: string[];
 }
 
 export const config = new Conf<ReadmeAIConfig>({
@@ -40,4 +57,29 @@ export function getGitHubToken(): string | undefined {
 
 export function getOllamaURL(): string {
   return process.env.OLLAMA_BASE_URL || config.get('ollama_url') || 'http://localhost:11434';
+}
+
+const CONFIG_FILES = ['readme-ai.config.js', 'readme-ai.config.mjs', '.readmeairc.json'];
+
+export async function loadProjectConfig(repoPath: string): Promise<ProjectConfig> {
+  for (const filename of CONFIG_FILES) {
+    const filePath = path.join(repoPath, filename);
+    try {
+      await fs.access(filePath);
+    } catch {
+      continue;
+    }
+
+    if (filename.endsWith('.json')) {
+      const content = await fs.readFile(filePath, 'utf-8');
+      return JSON.parse(content) as ProjectConfig;
+    }
+
+    // JS/MJS config — dynamic import
+    const fileUrl = pathToFileURL(path.resolve(filePath)).href;
+    const mod = await import(fileUrl);
+    return (mod.default || mod) as ProjectConfig;
+  }
+
+  return {};
 }

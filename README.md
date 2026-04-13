@@ -2,37 +2,63 @@
 
 # readme-ai
 
-> Generate stunning, production-quality READMEs from any codebase in seconds
+### The #1 AI-Powered README Generator for Developers
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?style=flat-square&logo=typescript)](#)
-[![Node.js](https://img.shields.io/badge/Node.js-%E2%89%A518-5FA04E?style=flat-square&logo=nodedotjs)](#)
-[![MIT License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](#license)
-[![npm](https://img.shields.io/npm/v/@malikasadjaved/readme-ai?style=flat-square&logo=npm)](https://www.npmjs.com/package/@malikasadjaved/readme-ai)
+> Generate stunning, production-quality READMEs from any codebase in seconds — powered by Claude, GPT-4o, Gemini, or Ollama
+
+[![npm version](https://img.shields.io/npm/v/@malikasadjaved/readme-ai?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/@malikasadjaved/readme-ai)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](#)
+[![Node.js](https://img.shields.io/badge/Node.js-%E2%89%A518-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white)](#)
+[![MIT License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](#license)
+[![Tests](https://img.shields.io/badge/Tests-186%20passing-brightgreen?style=for-the-badge&logo=vitest&logoColor=white)](#)
+[![Coverage](https://img.shields.io/badge/Coverage-76%25-yellow?style=for-the-badge)](#)
+[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=for-the-badge)](#contributing)
 
 **One command. Zero install. Beautiful READMEs.**
 
-[Quick Start](#-quick-start) · [Themes](#-themes) · [Providers](#-ai-providers) · [CLI Options](#-cli-options) · [GitHub Action](#-github-action)
+```bash
+npx @malikasadjaved/readme-ai
+```
+
+[Quick Start](#-quick-start) · [Themes](#-themes) · [AI Providers](#-ai-providers) · [Plugins](#-plugins) · [CLI Options](#-cli-options) · [GitHub Action](#-github-action) · [Contributing](#-contributing)
 
 </div>
 
 ---
 
+<!-- SEO: readme generator, ai readme, auto documentation, markdown generator, github readme, readme template, ai documentation tool, code documentation, auto readme, readme maker, project documentation, npx readme, readme-ai, claude readme, gpt readme, gemini readme, ollama readme, mermaid diagram generator, badge generator, open source documentation, developer tools 2026, best readme generator, ai developer tools, LLM documentation, automated documentation -->
+
 ## Overview
 
-**readme-ai** reads your actual source code — not just directory names — and generates a complete, polished README with architecture diagrams, badges, install instructions, usage examples, and API docs. Point it at any local project or public GitHub repo and get a production-ready README in seconds.
+**readme-ai** is the most powerful open-source AI README generator available. It reads your actual source code — not just directory names — and generates a complete, polished README with architecture diagrams, badges, install instructions, usage examples, and API docs.
 
-Unlike existing tools, readme-ai goes deep: it parses dependencies, detects frameworks, extracts API endpoints and CLI commands, and builds Mermaid architecture diagrams automatically. It supports 5 visual themes and 4 AI providers (including fully local generation via Ollama).
+Point it at any local project or public GitHub repo and get a production-ready README in seconds.
+
+### Why readme-ai?
+
+- **Deep code analysis** — parses actual source files, not just file trees
+- **10+ languages supported** — Node.js, Python, Rust, Go, Java (Gradle/Maven), Ruby, Swift, Dart/Flutter, and more
+- **Mermaid architecture diagrams** — auto-generated from your code structure
+- **Plugin system** — extend with custom analyzers and themes
+- **Works with any AI** — Claude, GPT-4o, Gemini, or fully local with Ollama (free)
+- **186 tests passing** — battle-tested and reliable
 
 ## Key Features
 
-- **npx-first** — zero install, works instantly: `npx @malikasadjaved/readme-ai`
-- **Deep code analysis** — reads actual source files, extracts functions, endpoints, and CLI commands
-- **Auto Mermaid diagrams** — generates architecture diagrams from your code structure
-- **5 beautiful themes** — Default, Modern, Hacker, Minimal, Academic
-- **4 AI providers** — Claude, GPT-4o, Gemini, Ollama (free & local)
-- **Smart badge generation** — auto-detects language, frameworks, CI, Docker, license
-- **GitHub URL support** — `npx @malikasadjaved/readme-ai github:user/repo` analyzes any public repo
-- **GitHub Action included** — auto-regenerate your README on every push
+| Feature | Description |
+|---------|-------------|
+| **Zero Install** | `npx @malikasadjaved/readme-ai` — works instantly, no setup |
+| **Deep Code Analysis** | Extracts functions, API endpoints, CLI commands, exports |
+| **Auto Mermaid Diagrams** | Architecture diagrams generated from code structure |
+| **5 Themes** | Default, Modern, Hacker, Minimal, Academic |
+| **4 AI Providers** | Claude, GPT-4o, Gemini Flash, Ollama (local/free) |
+| **Smart Badges** | Auto-detects language, frameworks, CI, Docker, license |
+| **GitHub URL Support** | Analyze any public repo: `github:user/repo` |
+| **GitHub Action** | Auto-regenerate README on every push |
+| **Plugin System** | Custom analyzers and themes via plugins |
+| **10+ Languages** | Node.js, Python, Rust, Go, Java, Ruby, Swift, Dart, and more |
+| **Project Config** | `.readmeairc.json` or `readme-ai.config.js` |
+| **API Docs** | Auto-generated from exported functions and classes |
 
 ## Quick Start
 
@@ -50,10 +76,17 @@ npx @malikasadjaved/readme-ai github:expressjs/express
 npx @malikasadjaved/readme-ai --interactive
 ```
 
+### Install globally (optional)
+
+```bash
+npm install -g @malikasadjaved/readme-ai
+readme-ai ./my-project
+```
+
 ## Demo
 
 <div align="center">
-  <img src="demo/demo.gif" alt="readme-ai demo" width="800">
+  <img src="demo/demo.gif" alt="readme-ai demo — AI README generator in action" width="800">
   <p><em>Generating a full README in seconds — with architecture diagrams, badges, and more.</em></p>
 </div>
 
@@ -63,12 +96,15 @@ npx @malikasadjaved/readme-ai --interactive
 |---------|:---------:|:----------------:|:-------:|
 | npx support (zero install) | **Yes** | No | No |
 | Mermaid architecture diagrams | **Yes** | No | No |
+| Plugin system | **Yes** | No | No |
 | GitHub URL analysis | **Yes** | Yes | Yes |
 | Multiple themes | **5** | 3 | No |
 | GitHub Action template | **Yes** | No | No |
 | API docs from code | **Yes** | No | No |
 | Badge auto-generation | **Yes** | Yes | Partial |
 | Local AI (Ollama) | **Yes** | No | No |
+| 10+ language support | **Yes** | Partial | No |
+| Pre-commit hooks | **Yes** | No | No |
 
 ## Themes
 
@@ -95,6 +131,8 @@ npx @malikasadjaved/readme-ai --theme minimal
 npx @malikasadjaved/readme-ai --theme academic
 ```
 
+> Want a custom theme? Use the [plugin system](#-plugins) to create your own!
+
 ## AI Providers
 
 ### Claude (Anthropic) — Default
@@ -118,7 +156,7 @@ export GEMINI_API_KEY=...
 npx @malikasadjaved/readme-ai --provider gemini
 ```
 
-### Ollama (Local, Free)
+### Ollama (Local, Free, Private)
 
 ```bash
 # Make sure Ollama is running locally
@@ -169,6 +207,42 @@ npx @malikasadjaved/readme-ai --overwrite --action
 npx @malikasadjaved/readme-ai github:tiangolo/fastapi --theme academic
 ```
 
+## Plugins
+
+readme-ai supports a **plugin system** for custom analyzers and themes. Plugins can add extra README sections, badges, or entirely new visual themes.
+
+```js
+// readme-ai.config.js
+export default {
+  plugins: [
+    './my-local-plugin.js',       // local plugin file
+    'readme-ai-plugin-example',   // npm package
+  ],
+};
+```
+
+Packages named `readme-ai-plugin-*` in `node_modules` are auto-discovered. See [CONTRIBUTING.md](CONTRIBUTING.md#writing-plugins) for the full plugin authoring guide.
+
+### Plugin Example
+
+```ts
+const myPlugin = {
+  name: 'my-plugin',
+  analyzers: [{
+    name: 'security-scanner',
+    analyze: async ({ scan, codeAnalysis, deps }) => ({
+      sections: { 'Security': 'No vulnerabilities found.' },
+      badges: [{ label: 'security', message: 'passing', color: 'green' }],
+    }),
+  }],
+  themes: [{
+    name: 'corporate',
+    render: (data) => `# ${data.projectName}\n\n${data.description}`,
+  }],
+};
+export default myPlugin;
+```
+
 ## GitHub Action
 
 Auto-regenerate your README on every push to main:
@@ -214,6 +288,20 @@ jobs:
           file_pattern: README.md
 ```
 
+## Supported Languages
+
+| Language | Package Manager | Install | Build | Test |
+|----------|----------------|---------|-------|------|
+| **Node.js** | npm / yarn / pnpm | `npm install` | `npm run build` | `npm test` |
+| **Python** | pip / pyproject | `pip install -r requirements.txt` | — | `pytest` |
+| **Rust** | cargo | `cargo build --release` | `cargo build` | `cargo test` |
+| **Go** | go modules | `go mod download` | `go build` | `go test ./...` |
+| **Java (Gradle)** | gradle | `gradle build` | `gradle build` | `gradle test` |
+| **Java (Maven)** | maven | `mvn install` | `mvn package` | `mvn test` |
+| **Ruby** | bundler | `bundle install` | — | `bundle exec rspec` |
+| **Swift** | Swift PM | `swift package resolve` | `swift build` | `swift test` |
+| **Dart/Flutter** | pub | `dart pub get` | `dart compile` | `dart test` |
+
 ## Architecture
 
 ```mermaid
@@ -229,8 +317,9 @@ graph TD
   G --> H
   H --> I[Section Generators]
   I --> J[Theme Engine]
-  J --> K[Markdown Writer]
-  K --> L[README.md]
+  J --> K[Plugin System]
+  K --> L[Markdown Writer]
+  L --> M[README.md]
 ```
 
 ## Project Structure
@@ -247,7 +336,7 @@ readme-ai/
 │   │   ├── repo-fetcher.ts   # Fetch from local or GitHub
 │   │   ├── file-scanner.ts   # Scan and categorize files
 │   │   ├── code-analyzer.ts  # Extract functions, endpoints, exports
-│   │   ├── dependency-analyzer.ts
+│   │   ├── dependency-analyzer.ts  # 10+ language support
 │   │   ├── badge-generator.ts
 │   │   └── diagram-builder.ts
 │   ├── generators/
@@ -256,6 +345,8 @@ readme-ai/
 │   │   ├── usage.ts          # Usage examples + API docs
 │   │   ├── contributing.ts   # Contributing guide
 │   │   └── changelog.ts      # Changelog section
+│   ├── plugins/
+│   │   └── index.ts          # Plugin loader and registry
 │   ├── providers/
 │   │   ├── anthropic.ts      # Claude
 │   │   ├── openai.ts         # GPT-4o
@@ -272,45 +363,44 @@ readme-ai/
 │       ├── github-api.ts
 │       ├── language-detector.ts
 │       ├── markdown-writer.ts
-│       └── template-engine.ts
-├── templates/
-│   ├── github-action.yml
-│   └── .readmeaiignore.example
-└── tests/
-    ├── analyzers/
-    └── generators/
+│       ├── template-engine.ts
+│       └── cache.ts
+├── tests/                    # 186 tests (Vitest)
+├── CONTRIBUTING.md           # Full contributor guide
+├── CHANGELOG.md
+└── LICENSE
 ```
 
 ## Contributing
 
-Contributions are welcome! Here's how to get started:
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide.
 
 ```bash
-# Clone the repo
 git clone https://github.com/malikasadjaved/readme-ai.git
 cd readme-ai
-
-# Install dependencies
 npm install
-
-# Run in development mode
-npm run dev
-
-# Run tests
-npm test
-
-# Build
-npm run build
+npm test        # 186 tests
+npm run dev     # development mode
 ```
+
+Pre-commit hooks with Husky + lint-staged ensure code quality on every commit.
+
+## Star History
+
+If you find readme-ai useful, please give it a star! It helps others discover the project.
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE) — use it freely in personal and commercial projects.
 
 ---
 
 <div align="center">
 
-Built with readme-ai
+**Built by [Malik Asad Javed](https://github.com/malikasadjaved)**
+
+**[readme-ai](https://github.com/malikasadjaved/readme-ai)** — the best AI README generator for developers
+
+<sub>readme generator | ai documentation | markdown generator | github readme | developer tools | claude | openai | gemini | ollama | mermaid diagrams | open source</sub>
 
 </div>

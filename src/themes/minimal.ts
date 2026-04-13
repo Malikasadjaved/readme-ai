@@ -15,12 +15,12 @@ ${data.description}`);
 
   // Features
   if (data.keyFeatures.length > 0) {
-    const cleanFeatures = data.keyFeatures.map(f =>
-      f.replace(/^[\p{Emoji_Presentation}\p{Extended_Pictographic}\s]+/u, '')
+    const cleanFeatures = data.keyFeatures.map((f) =>
+      f.replace(/^[\p{Emoji_Presentation}\p{Extended_Pictographic}\s]+/u, ''),
     );
     sections.push(`## Features
 
-${cleanFeatures.map(f => `- ${f}`).join('\n')}`);
+${cleanFeatures.map((f) => `- ${f}`).join('\n')}`);
   }
 
   // Architecture diagram
@@ -47,7 +47,7 @@ ${data.directoryTree}
   if (data.installSection.prerequisites.length > 0) {
     installLines.push('### Prerequisites');
     installLines.push('');
-    installLines.push(data.installSection.prerequisites.map(p => `- ${p}`).join('\n'));
+    installLines.push(data.installSection.prerequisites.map((p) => `- ${p}`).join('\n'));
     installLines.push('');
   }
 

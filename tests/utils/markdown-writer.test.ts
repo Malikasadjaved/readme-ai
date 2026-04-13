@@ -1,5 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
-import { joinSections, sanitizeMarkdown, escapeForTable, writeMarkdown } from '../../src/utils/markdown-writer.js';
+import {
+  joinSections,
+  sanitizeMarkdown,
+  escapeForTable,
+  writeMarkdown,
+} from '../../src/utils/markdown-writer.js';
 
 vi.mock('node:fs/promises', () => ({
   default: {

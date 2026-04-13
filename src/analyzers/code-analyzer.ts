@@ -137,7 +137,8 @@ function extractTSExports(content: string, filePath: string, exports: ExportInfo
 
 function extractTSFunctions(content: string, filePath: string, functions: FunctionInfo[]): void {
   // Match exported async/sync functions with JSDoc
-  const funcWithDocRegex = /\/\*\*\s*([\s\S]*?)\*\/\s*export\s+(?:async\s+)?function\s+(\w+)\s*(\([^)]*\)(?:\s*:\s*[^{]+)?)/g;
+  const funcWithDocRegex =
+    /\/\*\*\s*([\s\S]*?)\*\/\s*export\s+(?:async\s+)?function\s+(\w+)\s*(\([^)]*\)(?:\s*:\s*[^{]+)?)/g;
   let match;
   while ((match = funcWithDocRegex.exec(content)) !== null) {
     const doc = match[1].replace(/\s*\*\s*/g, ' ').trim();
@@ -152,7 +153,7 @@ function extractTSFunctions(content: string, filePath: string, functions: Functi
   // Functions without JSDoc
   const funcRegex = /export\s+(?:async\s+)?function\s+(\w+)\s*(\([^)]*\)(?:\s*:\s*[^{]+)?)/g;
   while ((match = funcRegex.exec(content)) !== null) {
-    if (!functions.some(f => f.name === match![1] && f.file === filePath)) {
+    if (!functions.some((f) => f.name === match![1] && f.file === filePath)) {
       functions.push({
         name: match[1],
         signature: `function ${match[1]}${match[2]}`,
@@ -165,7 +166,8 @@ function extractTSFunctions(content: string, filePath: string, functions: Functi
 
 function extractExpressEndpoints(content: string, filePath: string, endpoints: Endpoint[]): void {
   // router.get('/path', handler) or app.post('/path', handler)
-  const routeRegex = /(?:router|app|server)\.(get|post|put|patch|delete|all)\s*\(\s*['"`]([^'"`]+)['"`]/gi;
+  const routeRegex =
+    /(?:router|app|server)\.(get|post|put|patch|delete|all)\s*\(\s*['"`]([^'"`]+)['"`]/gi;
   let match;
   while ((match = routeRegex.exec(content)) !== null) {
     endpoints.push({
@@ -193,7 +195,8 @@ function extractFastAPIEndpoints(content: string, filePath: string, endpoints: E
 
 function extractCommanderCommands(content: string, filePath: string, commands: CLICommand[]): void {
   // .command('name') or .name('name')
-  const cmdRegex = /\.command\s*\(\s*['"`]([^'"`]+)['"`]\)[\s\S]*?\.description\s*\(\s*['"`]([^'"`]+)['"`]\)/g;
+  const cmdRegex =
+    /\.command\s*\(\s*['"`]([^'"`]+)['"`]\)[\s\S]*?\.description\s*\(\s*['"`]([^'"`]+)['"`]\)/g;
   let match;
   while ((match = cmdRegex.exec(content)) !== null) {
     commands.push({
@@ -204,9 +207,14 @@ function extractCommanderCommands(content: string, filePath: string, commands: C
   }
 }
 
-function extractPythonFunctions(content: string, filePath: string, functions: FunctionInfo[]): void {
+function extractPythonFunctions(
+  content: string,
+  filePath: string,
+  functions: FunctionInfo[],
+): void {
   // def name(params): with optional docstring
-  const funcRegex = /def\s+(\w+)\s*\(([^)]*)\)(?:\s*->\s*[^:]+)?:\s*\n\s*(?:"""([\s\S]*?)"""|'''([\s\S]*?)''')?/g;
+  const funcRegex =
+    /def\s+(\w+)\s*\(([^)]*)\)(?:\s*->\s*[^:]+)?:\s*\n\s*(?:"""([\s\S]*?)"""|'''([\s\S]*?)''')?/g;
   let match;
   while ((match = funcRegex.exec(content)) !== null) {
     const name = match[1];
@@ -251,7 +259,42 @@ function extractTSImports(content: string, deps: Set<string>): void {
 
 function extractPythonImports(content: string, deps: Set<string>): void {
   const importRegex = /(?:^|\n)\s*(?:import|from)\s+(\w+)/g;
-  const stdLib = new Set(['os', 'sys', 'json', 'pathlib', 'typing', 'datetime', 'collections', 're', 'functools', 'itertools', 'math', 'random', 'string', 'time', 'logging', 'unittest', 'abc', 'io', 'copy', 'enum', 'dataclasses', 'contextlib', 'asyncio', 'http', 'urllib', 'hashlib', 'base64', 'struct', 'argparse', 'shutil', 'glob', 'subprocess', 'threading', 'multiprocessing']);
+  const stdLib = new Set([
+    'os',
+    'sys',
+    'json',
+    'pathlib',
+    'typing',
+    'datetime',
+    'collections',
+    're',
+    'functools',
+    'itertools',
+    'math',
+    'random',
+    'string',
+    'time',
+    'logging',
+    'unittest',
+    'abc',
+    'io',
+    'copy',
+    'enum',
+    'dataclasses',
+    'contextlib',
+    'asyncio',
+    'http',
+    'urllib',
+    'hashlib',
+    'base64',
+    'struct',
+    'argparse',
+    'shutil',
+    'glob',
+    'subprocess',
+    'threading',
+    'multiprocessing',
+  ]);
   let match;
   while ((match = importRegex.exec(content)) !== null) {
     if (!stdLib.has(match[1])) {

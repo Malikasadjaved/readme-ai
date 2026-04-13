@@ -7,6 +7,7 @@ import { renderMinimal } from './minimal.js';
 import { renderHacker } from './hacker.js';
 import { renderModern } from './modern.js';
 import { renderAcademic } from './academic.js';
+import { getThemePlugin, listPluginThemes } from '../plugins/index.js';
 
 export interface ThemeData {
   projectName: string;
@@ -40,13 +41,15 @@ const themes: Record<string, Theme> = {
 export function getTheme(name: string): Theme {
   const theme = themes[name];
   if (!theme) {
-    throw new Error(
-      `Unknown theme: ${name}\nAvailable themes: ${Object.keys(themes).join(', ')}`
-    );
+    const pluginTheme = getThemePlugin(name);
+    if (pluginTheme) return pluginTheme;
+
+    const allThemes = [...Object.keys(themes), ...listPluginThemes()];
+    throw new Error(`Unknown theme: ${name}\nAvailable themes: ${allThemes.join(', ')}`);
   }
   return theme;
 }
 
 export function listThemes(): string[] {
-  return Object.keys(themes);
+  return [...Object.keys(themes), ...listPluginThemes()];
 }
